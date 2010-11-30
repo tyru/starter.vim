@@ -45,7 +45,7 @@ function! starter#launch() "{{{
 endfunction "}}}
 
 
-function! s:copy_template(src, dest) "{{{
+function! s:copy_path(src, dest) "{{{
     if executable('cp')
         call s:system('cp', '-R', a:src, a:dest)
         let success = 0
@@ -54,7 +54,7 @@ function! s:copy_template(src, dest) "{{{
         " TODO
         call s:echomsg(
         \   'ErrorMsg',
-        \   's:copy_template(): not implemented!!'
+        \   's:copy_path(): not implemented!!'
         \)
         call s:echomsg(
         \   'ErrorMsg',
@@ -131,7 +131,7 @@ function! s:generate() "{{{
     endif
 
     let template_dir = expand(g:starter#template_dir)
-    if !s:copy_template(template_dir . '/' . file, dest)
+    if !s:copy_path(template_dir . '/' . file, dest)
         return
     endif
 
