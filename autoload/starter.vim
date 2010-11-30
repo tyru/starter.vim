@@ -15,7 +15,7 @@ if !exists('g:starter#open_command')
     let g:starter#open_command = '7new'
 endif
 if !exists('g:starter#after_hook')
-    let g:starter#after_hook = {}
+    let g:starter#after_hook = []
 endif
 if !exists('g:starter#config')
     let g:starter#config = {}
