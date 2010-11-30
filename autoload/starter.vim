@@ -1,29 +1,6 @@
 " vim:foldmethod=marker:fen:
 scriptencoding utf-8
 
-" Change Log: {{{
-" }}}
-" Document {{{
-"
-" Name: starter
-" Version: 0.0.0
-" Author:  tyru <tyru.exe@gmail.com>
-" Last Change: 2010-11-30.
-" License: Distributable under the same terms as Vim itself (see :help license)
-"
-" Description:
-"   NO DESCRIPTION YET
-"
-" Usage: {{{
-"   Commands: {{{
-"   }}}
-"   Mappings: {{{
-"   }}}
-"   Global Variables: {{{
-"   }}}
-" }}}
-" }}}
-
 " Load Once {{{
 if exists('g:loaded_starter') && g:loaded_starter
     finish
