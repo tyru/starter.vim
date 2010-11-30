@@ -152,7 +152,7 @@ function! s:remove_base_path(path, base_path) "{{{
     return fnamemodify(a:path, ':t')
 endfunction "}}}
 
-function! s:launch() "{{{
+function! starter#launch() "{{{
     let template_dir = expand(g:starter_template_dir)
     if !isdirectory(template_dir)
         call s:echomsg(
@@ -177,7 +177,7 @@ if !g:starter_no_default_command
     command!
     \   -bar
     \   StarterLaunch
-    \   call s:launch()
+    \   call starter#launch()
 endif
 
 " Restore 'cpoptions' {{{
