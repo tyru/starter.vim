@@ -70,9 +70,9 @@ function! s:echomsg(hl, msg) "{{{
     endtry
 endfunction "}}}
 
-function! s:copy_template_dir(src_dir, dest_dir) "{{{
+function! s:copy_template_dir(src, dest) "{{{
     if executable('cp')
-        call s:system('cp', '-R', a:src_dir, a:dest_dir)
+        call s:system('cp', '-R', a:src, a:dest)
         return 1
     else
         call s:echomsg(
@@ -121,15 +121,7 @@ function! s:generate() "{{{
         \)
         return
     endif
-    let dir = b:starter_files_list[idx]
-    if !isdirectory(dir)
-        call s:echomsg(
-        \   'ErrorMsg',
-        \   "internal error: '" . dir
-        \       . "' is not a directory."
-        \)
-        return
-    endif
+    let file = b:starter_files_list[idx]
 
     let dest_dir = substitute(getcwd(), '\', '/', 'g') . '/'
     if getftype(dest_dir) != ''
@@ -139,7 +131,7 @@ function! s:generate() "{{{
         \)
         return
     endif
-    if !s:copy_template_dir(dir, dest_dir)
+    if !s:copy_template_dir(file, dest_dir)
         return
     endif
     call s:generate_template_dir(dest_dir)
