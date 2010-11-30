@@ -12,7 +12,7 @@ if !exists('g:starter#template_dir')
     let g:starter#template_dir = '~/.vim/template'
 endif
 if !exists('g:starter#open_command')
-    let g:starter#open_command = '5new'
+    let g:starter#open_command = '7new'
 endif
 if !exists('g:starter#after_hook')
     let g:starter#after_hook = {}
