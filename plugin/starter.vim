@@ -92,6 +92,13 @@ function! s:generate_template_dir(dir) "{{{
             \           map(program.args,
             \               'shellescape(v:val)'))
             \)
+        else
+            call s:echomsg(
+            \   'WarningMsg',
+            \   'invalid value in g:starter_hook_program:'
+            \       . ' key = ' . string(a:dir)
+            \       . ', value = ' . string(program)
+            \)
         endif
     endif
 endfunction "}}}
