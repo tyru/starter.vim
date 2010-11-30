@@ -1,12 +1,6 @@
 " vim:foldmethod=marker:fen:
 scriptencoding utf-8
 
-" Load Once {{{
-if exists('g:loaded_starter') && g:loaded_starter
-    finish
-endif
-let g:loaded_starter = 1
-" }}}
 " Saving 'cpoptions' {{{
 let s:save_cpo = &cpo
 set cpo&vim
@@ -19,9 +13,6 @@ if !exists('g:starter_template_dir')
 endif
 if !exists('g:starter_open_command')
     let g:starter_open_command = '5new'
-endif
-if !exists('g:starter_no_default_command')
-    let g:starter_no_default_command = 0
 endif
 if !exists('g:starter_config')
     let g:starter_config = {}
@@ -173,12 +164,6 @@ function! starter#launch() "{{{
     let b:starter_files_list = files
 endfunction "}}}
 
-if !g:starter_no_default_command
-    command!
-    \   -bar
-    \   StarterLaunch
-    \   call starter#launch()
-endif
 
 " Restore 'cpoptions' {{{
 let &cpo = s:save_cpo
