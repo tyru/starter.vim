@@ -122,7 +122,7 @@ function! s:generate() "{{{
     if !(0 <= idx && idx < len(b:starter_files_list))
         call s:echomsg(
         \   'ErrorMsg',
-        \   'internal error: invalid lnum.''internal error: invalid lnum.'
+        \   'internal error: invalid lnum.'
         \)
         return
     endif
