@@ -82,7 +82,17 @@ endfunction "}}}
 function! s:generate_template_dir(dir) "{{{
     if has_key(g:starter_hook_program, a:dir)
         let program = g:starter_hook_program[a:dir]
-        call system(program . ' ' . shellescape(a:dir))
+        if type(program) == type("")
+            call system(program . ' ' . shellescape(a:dir))
+        elseif type(program) == type({})
+            call system(
+            \   program.program . ' '
+            \       . shellescape(a:dir)
+            \       . join(
+            \           map(program.args,
+            \               'shellescape(v:val)'))
+            \)
+        endif
     endif
 endfunction "}}}
 
