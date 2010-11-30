@@ -8,20 +8,20 @@ set cpo&vim
 
 
 " Global Variables
-if !exists('g:starter_template_dir')
-    let g:starter_template_dir = '~/.vim/template'
+if !exists('g:starter#template_dir')
+    let g:starter#template_dir = '~/.vim/template'
 endif
-if !exists('g:starter_open_command')
-    let g:starter_open_command = '5new'
+if !exists('g:starter#open_command')
+    let g:starter#open_command = '5new'
 endif
-if !exists('g:starter_config')
-    let g:starter_config = {}
+if !exists('g:starter#config')
+    let g:starter#config = {}
 endif
 
 
 
 function! starter#launch() "{{{
-    let template_dir = expand(g:starter_template_dir)
+    let template_dir = expand(g:starter#template_dir)
     if !isdirectory(template_dir)
         call s:echomsg(
         \   'ErrorMsg',
@@ -61,10 +61,10 @@ function! s:copy_template(src, dest) "{{{
 endfunction "}}}
 
 function! s:run_hook(path) "{{{
-    if !has_key(g:starter_config, 'hook')
+    if !has_key(g:starter#config, 'hook')
         return
     endif
-    let hook = g:starter_config.hook
+    let hook = g:starter#config.hook
 
     if has_key(hook, a:path)
         let program = hook[a:path]
@@ -81,7 +81,7 @@ function! s:run_hook(path) "{{{
         else
             call s:echomsg(
             \   'WarningMsg',
-            \   'invalid value in `g:starter_config.hook`:'
+            \   'invalid value in `g:starter#config.hook`:'
             \       . ' key = ' . string(a:path)
             \       . ', value = ' . string(program)
             \)
@@ -110,7 +110,7 @@ function! s:generate() "{{{
         return
     endif
 
-    let template_dir = expand(g:starter_template_dir)
+    let template_dir = expand(g:starter#template_dir)
     if !s:copy_template(template_dir . '/' . file, dest)
         return
     endif
@@ -119,7 +119,7 @@ function! s:generate() "{{{
 endfunction "}}}
 
 function! s:create_buffer(files) "{{{
-    execute g:starter_open_command
+    execute g:starter#open_command
 
     " Options
     setlocal bufhidden=wipe
