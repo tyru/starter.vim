@@ -57,8 +57,7 @@ function! s:glob(...) "{{{
 endfunction "}}}
 
 function! s:system(...) "{{{
-    return call('system',
-    \       join(map(copy(a:000), 'shellescape(v:val)')))
+    return system(join(map(copy(a:000), 'shellescape(v:val)')))
 endfunction "}}}
 
 function! s:echomsg(hl, msg) "{{{
