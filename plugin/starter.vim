@@ -119,14 +119,15 @@ endfunction "}}}
 
 function! s:generate() "{{{
     let idx = line('.') - 1
-    if !(0 <= idx && idx < len(b:starter_files_list))
+    let not_found = {}
+    let file = get(b:starter_files_list, idx, not_found)
+    if file is not_found
         call s:echomsg(
         \   'ErrorMsg',
         \   'internal error: invalid lnum.'
         \)
         return
     endif
-    let file = b:starter_files_list[idx]
 
     let dest = substitute(getcwd(), '\', '/', 'g') . '/'
     if getftype(dest) != ''
@@ -136,10 +137,12 @@ function! s:generate() "{{{
         \)
         return
     endif
+
     let template_dir = expand(g:starter_template_dir)
     if !s:copy_template(template_dir . '/' . file, dest)
         return
     endif
+
     call s:run_hook(dest)
 endfunction "}}}
 
