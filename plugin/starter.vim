@@ -159,11 +159,11 @@ function! s:create_buffer(files) "{{{
     setlocal nomodifiable
 
     " Mappings
-    nnoremap <Plug>(starter-create) :<C-u>call <SID>generate()<CR>
-    nnoremap <Plug>(starter-close)  :<C-u>close<CR>
+    nnoremap <buffer> <Plug>(starter-create) :<C-u>call <SID>generate()<CR>
+    nnoremap <buffer> <Plug>(starter-close)  :<C-u>close<CR>
 
-    nmap <CR>   <Plug>(starter-create)
-    nmap <Esc>  <Plug>(starter-close)
+    nmap <buffer> <CR>   <Plug>(starter-create)
+    nmap <buffer> <Esc>  <Plug>(starter-close)
 
     " End.
     file [starter]
