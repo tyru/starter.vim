@@ -109,7 +109,7 @@ function! s:run_after_hook(path) "{{{
     endfor
 endfunction "}}}
 
-function! s:generate() "{{{
+function! s:map_create() "{{{
     let idx = line('.') - 1
     let not_found = {}
     let file = get(b:starter_files_list, idx, not_found)
@@ -155,7 +155,7 @@ function! s:create_buffer(files) "{{{
     setlocal nomodifiable
 
     " Mappings
-    nnoremap <silent><buffer> <Plug>(starter-create) :<C-u>call <SID>generate()<CR>
+    nnoremap <silent><buffer> <Plug>(starter-create) :<C-u>call <SID>map_create()<CR>
     nnoremap <silent><buffer> <Plug>(starter-close)  :<C-u>close<CR>
 
     nmap <buffer> <CR>   <Plug>(starter-create)
