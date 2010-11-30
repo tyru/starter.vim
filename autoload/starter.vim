@@ -65,35 +65,6 @@ function! s:copy_path(src, dest) "{{{
     endif
 endfunction "}}}
 
-function! s:run_hook(path) "{{{
-    if !has_key(g:starter#config, 'hook')
-        return
-    endif
-    let hook = g:starter#config.hook
-
-    if has_key(hook, a:path)
-        let program = hook[a:path]
-        if type(program) == type("")
-            call system(program . ' ' . shellescape(a:path))
-        elseif type(program) == type({})
-            call system(
-            \   program.program . ' '
-            \       . shellescape(a:path)
-            \       . join(
-            \           map(program.args,
-            \               'shellescape(v:val)'))
-            \)
-        else
-            call s:echomsg(
-            \   'WarningMsg',
-            \   'invalid value in `g:starter#config.hook`:'
-            \       . ' key = ' . string(a:path)
-            \       . ', value = ' . string(program)
-            \)
-        endif
-    endif
-endfunction "}}}
-
 function! s:run_after_hook(path) "{{{
     for hooks_expr in [
     \   'g:starter#config[a:path].after_hook',
@@ -137,7 +108,6 @@ function! s:map_create() "{{{
 
     close
 
-    call s:run_hook(dest)
     call s:run_after_hook(dest)
 
     echo "created '" . fnamemodify(dest, ':.') . "'."
