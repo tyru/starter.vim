@@ -116,6 +116,8 @@ function! s:generate() "{{{
     endif
 
     call s:run_hook(dest)
+
+    echo "created '" . fnamemodify(dest, ':.') . "'."
 endfunction "}}}
 
 function! s:create_buffer(files) "{{{
