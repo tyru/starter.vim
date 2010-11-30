@@ -169,8 +169,12 @@ function! s:create_buffer(files) "{{{
 endfunction "}}}
 
 function! s:remove_base_path(path, base_path) "{{{
-    " FIXME: this won't work for directories in template dir.
-    return fnamemodify(a:path, ':t')
+    " `+1` to remove the path separator too.
+    let result = strpart(
+    \   simplify(a:path),
+    \   strlen(simplify(a:base_path)) + 1
+    \)
+    return result != '' ? result : a:path
 endfunction "}}}
 
 
