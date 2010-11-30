@@ -20,22 +20,27 @@ endif
 
 
 
-function! s:glob(...) "{{{
-    return split(call('glob', a:000), '\n')
+function! starter#launch() "{{{
+    let template_dir = expand(g:starter_template_dir)
+    if !isdirectory(template_dir)
+        call s:echomsg(
+        \   'ErrorMsg',
+        \   "directory '"
+        \       . template_dir
+        \       . "' does not exist."
+        \)
+        return
+    endif
+
+    let files =
+    \   map(
+    \       s:glob(template_dir . '/*'),
+    \       's:remove_base_path(v:val, template_dir)'
+    \   )
+    call s:create_buffer(files)
+    let b:starter_files_list = files
 endfunction "}}}
 
-function! s:system(...) "{{{
-    return system(join(map(copy(a:000), 'shellescape(v:val)')))
-endfunction "}}}
-
-function! s:echomsg(hl, msg) "{{{
-    try
-        execute 'echohl' a:hl
-        echomsg a:msg
-    finally
-        echohl None
-    endtry
-endfunction "}}}
 
 function! s:copy_template(src, dest) "{{{
     if executable('cp')
@@ -143,26 +148,24 @@ function! s:remove_base_path(path, base_path) "{{{
     return fnamemodify(a:path, ':t')
 endfunction "}}}
 
-function! starter#launch() "{{{
-    let template_dir = expand(g:starter_template_dir)
-    if !isdirectory(template_dir)
-        call s:echomsg(
-        \   'ErrorMsg',
-        \   "directory '"
-        \       . template_dir
-        \       . "' does not exist."
-        \)
-        return
-    endif
 
-    let files =
-    \   map(
-    \       s:glob(template_dir . '/*'),
-    \       's:remove_base_path(v:val, template_dir)'
-    \   )
-    call s:create_buffer(files)
-    let b:starter_files_list = files
+function! s:glob(...) "{{{
+    return split(call('glob', a:000), '\n')
 endfunction "}}}
+
+function! s:system(...) "{{{
+    return system(join(map(copy(a:000), 'shellescape(v:val)')))
+endfunction "}}}
+
+function! s:echomsg(hl, msg) "{{{
+    try
+        execute 'echohl' a:hl
+        echomsg a:msg
+    finally
+        echohl None
+    endtry
+endfunction "}}}
+
 
 
 " Restore 'cpoptions' {{{
