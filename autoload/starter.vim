@@ -47,6 +47,7 @@ function! s:copy_template(src, dest) "{{{
         call s:system('cp', '-R', a:src, a:dest)
         return 1
     else
+        " TODO
         call s:echomsg(
         \   'ErrorMsg',
         \   's:copy_template(): not implemented!!'
