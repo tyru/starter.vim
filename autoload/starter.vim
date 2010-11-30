@@ -134,8 +134,8 @@ function! s:create_buffer(files) "{{{
     setlocal nomodifiable
 
     " Mappings
-    nnoremap <buffer> <Plug>(starter-create) :<C-u>call <SID>generate()<CR>
-    nnoremap <buffer> <Plug>(starter-close)  :<C-u>close<CR>
+    nnoremap <silent><buffer> <Plug>(starter-create) :<C-u>call <SID>generate()<CR>
+    nnoremap <silent><buffer> <Plug>(starter-close)  :<C-u>close<CR>
 
     nmap <buffer> <CR>   <Plug>(starter-create)
     nmap <buffer> <Esc>  <Plug>(starter-close)
