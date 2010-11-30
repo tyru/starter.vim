@@ -46,8 +46,8 @@ endif
 if !exists('g:starter_no_default_command')
     let g:starter_no_default_command = 0
 endif
-if !exists('g:starter_hook_program')
-    let g:starter_hook_program = {}
+if !exists('g:starter_config')
+    let g:starter_config = {}
 endif
 
 
@@ -89,8 +89,13 @@ function! s:copy_template(src, dest) "{{{
 endfunction "}}}
 
 function! s:run_hook(path) "{{{
-    if has_key(g:starter_hook_program, a:path)
-        let program = g:starter_hook_program[a:path]
+    if !has_key(g:starter_config, 'hook')
+        return
+    endif
+    let hook = g:starter_config.hook
+
+    if has_key(hook, a:path)
+        let program = hook[a:path]
         if type(program) == type("")
             call system(program . ' ' . shellescape(a:path))
         elseif type(program) == type({})
@@ -104,7 +109,7 @@ function! s:run_hook(path) "{{{
         else
             call s:echomsg(
             \   'WarningMsg',
-            \   'invalid value in g:starter_hook_program:'
+            \   'invalid value in `g:starter_config.hook`:'
             \       . ' key = ' . string(a:path)
             \       . ', value = ' . string(program)
             \)
