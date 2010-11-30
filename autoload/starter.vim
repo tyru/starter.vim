@@ -135,6 +135,8 @@ function! s:map_create() "{{{
         return
     endif
 
+    close
+
     call s:run_hook(dest)
     call s:run_after_hook(dest)
 
