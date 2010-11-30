@@ -70,14 +70,14 @@ function! s:echomsg(hl, msg) "{{{
     endtry
 endfunction "}}}
 
-function! s:copy_template_dir(src, dest) "{{{
+function! s:copy_template(src, dest) "{{{
     if executable('cp')
         call s:system('cp', '-R', a:src, a:dest)
         return 1
     else
         call s:echomsg(
         \   'ErrorMsg',
-        \   's:copy_template_dir(): not implemented!!'
+        \   's:copy_template(): not implemented!!'
         \)
         call s:echomsg(
         \   'ErrorMsg',
@@ -88,15 +88,15 @@ function! s:copy_template_dir(src, dest) "{{{
     endif
 endfunction "}}}
 
-function! s:generate_template_dir(dir) "{{{
-    if has_key(g:starter_hook_program, a:dir)
-        let program = g:starter_hook_program[a:dir]
+function! s:generate_template(path) "{{{
+    if has_key(g:starter_hook_program, a:path)
+        let program = g:starter_hook_program[a:path]
         if type(program) == type("")
-            call system(program . ' ' . shellescape(a:dir))
+            call system(program . ' ' . shellescape(a:path))
         elseif type(program) == type({})
             call system(
             \   program.program . ' '
-            \       . shellescape(a:dir)
+            \       . shellescape(a:path)
             \       . join(
             \           map(program.args,
             \               'shellescape(v:val)'))
@@ -105,7 +105,7 @@ function! s:generate_template_dir(dir) "{{{
             call s:echomsg(
             \   'WarningMsg',
             \   'invalid value in g:starter_hook_program:'
-            \       . ' key = ' . string(a:dir)
+            \       . ' key = ' . string(a:path)
             \       . ', value = ' . string(program)
             \)
         endif
@@ -123,18 +123,18 @@ function! s:generate() "{{{
     endif
     let file = b:starter_files_list[idx]
 
-    let dest_dir = substitute(getcwd(), '\', '/', 'g') . '/'
-    if getftype(dest_dir) != ''
+    let dest = substitute(getcwd(), '\', '/', 'g') . '/'
+    if getftype(dest) != ''
         call s:echomsg(
         \   'ErrorMsg',
-        \   "path '" . dest_dir . "' exists."
+        \   "path '" . dest . "' exists."
         \)
         return
     endif
-    if !s:copy_template_dir(file, dest_dir)
+    if !s:copy_template(file, dest)
         return
     endif
-    call s:generate_template_dir(dest_dir)
+    call s:generate_template(dest)
 endfunction "}}}
 
 function! s:create_buffer(files) "{{{
