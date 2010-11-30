@@ -14,6 +14,9 @@ endif
 if !exists('g:starter#open_command')
     let g:starter#open_command = '5new'
 endif
+if !exists('g:starter#after_hook')
+    let g:starter#after_hook = {}
+endif
 if !exists('g:starter#config')
     let g:starter#config = {}
 endif
@@ -90,6 +93,21 @@ function! s:run_hook(path) "{{{
     endif
 endfunction "}}}
 
+function! s:run_after_hook(path) "{{{
+    for hooks_expr in [
+    \   'g:starter#config[a:path].after_hook',
+    \   'g:starter#after_hook',
+    \]
+        if exists(hooks_expr)
+            unlet! hooks
+            let hooks = eval(hooks_expr)
+            for h in type(hooks) == type([]) ? hooks : [hooks]
+                call call(h, [a:path])
+            endfor
+        endif
+    endfor
+endfunction "}}}
+
 function! s:generate() "{{{
     let idx = line('.') - 1
     let not_found = {}
@@ -117,6 +135,7 @@ function! s:generate() "{{{
     endif
 
     call s:run_hook(dest)
+    call s:run_after_hook(dest)
 
     echo "created '" . fnamemodify(dest, ':.') . "'."
 endfunction "}}}
