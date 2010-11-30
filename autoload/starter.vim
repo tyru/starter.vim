@@ -48,7 +48,8 @@ endfunction "}}}
 function! s:copy_template(src, dest) "{{{
     if executable('cp')
         call s:system('cp', '-R', a:src, a:dest)
-        return 1
+        let success = 0
+        return v:shell_error == success
     else
         " TODO
         call s:echomsg(
