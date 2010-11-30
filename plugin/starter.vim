@@ -131,7 +131,8 @@ function! s:generate() "{{{
         \)
         return
     endif
-    if !s:copy_template(file, dest)
+    let template_dir = expand(g:starter_template_dir)
+    if !s:copy_template(template_dir . '/' . file, dest)
         return
     endif
     call s:run_hook(dest)
@@ -179,13 +180,12 @@ function! s:launch() "{{{
         return
     endif
 
-    let files = s:glob(template_dir . '/*')
-    call s:create_buffer(
+    let files =
     \   map(
-    \       copy(files),
+    \       s:glob(template_dir . '/*')
     \       's:remove_base_path(v:val, template_dir)'
     \   )
-    \)
+    call s:create_buffer(files)
     let b:starter_files_list = files
 endfunction "}}}
 
