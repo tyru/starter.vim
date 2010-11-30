@@ -73,9 +73,18 @@ endfunction "}}}
 function! s:copy_template_dir(src_dir, dest_dir) "{{{
     if executable('cp')
         call s:system('cp', '-R', a:src_dir, a:dest_dir)
+        return 1
     else
-        " TODO
-        echoerr 's:copy_template_dir(): not implemented!!'
+        call s:echomsg(
+        \   'ErrorMsg',
+        \   's:copy_template_dir(): not implemented!!'
+        \)
+        call s:echomsg(
+        \   'ErrorMsg',
+        \   "sorry! current starter.vim needs 'cp' program"
+        \       . ' for copying template directory.'
+        \)
+        return 0
     endif
 endfunction "}}}
 
@@ -130,7 +139,9 @@ function! s:generate() "{{{
         \)
         return
     endif
-    call s:copy_template_dir(dir, dest_dir)
+    if !s:copy_template_dir(dir, dest_dir)
+        return
+    endif
     call s:generate_template_dir(dest_dir)
 endfunction "}}}
 
