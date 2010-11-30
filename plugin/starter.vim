@@ -143,11 +143,12 @@ function! s:create_buffer(dirs) "{{{
 endfunction "}}}
 
 function! s:launch() "{{{
-    if !isdirectory(g:starter_template_dir)
+    let template_dir = expand(g:starter_template_dir)
+    if !isdirectory(template_dir)
         call s:echomsg(
         \   'ErrorMsg',
         \   "directory '"
-        \       . g:starter_template_dir
+        \       . template_dir
         \       . "' does not exist."
         \)
         return
@@ -155,7 +156,7 @@ function! s:launch() "{{{
 
     let dirs = 
     \   filter(
-    \       s:glob(g:starter_template_dir . '/*'),
+    \       s:glob(template_dir . '/*'),
     \       'isdirectory(v:val)'
     \   )
     call s:create_buffer(dirs)
