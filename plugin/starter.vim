@@ -88,7 +88,7 @@ function! s:copy_template(src, dest) "{{{
     endif
 endfunction "}}}
 
-function! s:generate_template(path) "{{{
+function! s:run_hook(path) "{{{
     if has_key(g:starter_hook_program, a:path)
         let program = g:starter_hook_program[a:path]
         if type(program) == type("")
@@ -134,7 +134,7 @@ function! s:generate() "{{{
     if !s:copy_template(file, dest)
         return
     endif
-    call s:generate_template(dest)
+    call s:run_hook(dest)
 endfunction "}}}
 
 function! s:create_buffer(files) "{{{
