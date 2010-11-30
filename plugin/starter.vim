@@ -128,7 +128,7 @@ function! s:generate() "{{{
         return
     endif
 
-    let dest = substitute(getcwd(), '\', '/', 'g') . '/'
+    let dest = getcwd() . '/' . file
     if getftype(dest) != ''
         call s:echomsg(
         \   'ErrorMsg',
