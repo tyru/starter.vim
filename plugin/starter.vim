@@ -190,7 +190,7 @@ function! s:launch() "{{{
 
     let files =
     \   map(
-    \       s:glob(template_dir . '/*')
+    \       s:glob(template_dir . '/*'),
     \       's:remove_base_path(v:val, template_dir)'
     \   )
     call s:create_buffer(files)
