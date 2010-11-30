@@ -114,14 +114,14 @@ endfunction "}}}
 
 function! s:generate() "{{{
     let idx = line('.') - 1
-    if !(0 <= idx && idx < len(b:starter_dir_list))
+    if !(0 <= idx && idx < len(b:starter_files_list))
         call s:echomsg(
         \   'ErrorMsg',
         \   'internal error: invalid lnum.''internal error: invalid lnum.'
         \)
         return
     endif
-    let dir = b:starter_dir_list[idx]
+    let dir = b:starter_files_list[idx]
     if !isdirectory(dir)
         call s:echomsg(
         \   'ErrorMsg',
@@ -145,7 +145,7 @@ function! s:generate() "{{{
     call s:generate_template_dir(dest_dir)
 endfunction "}}}
 
-function! s:create_buffer(dirs) "{{{
+function! s:create_buffer(files) "{{{
     execute g:starter_open_command
 
     " Options
@@ -155,7 +155,7 @@ function! s:create_buffer(dirs) "{{{
     setlocal nobuflisted
     setlocal noswapfile
 
-    call setline(1, a:dirs)
+    call setline(1, a:files)
     setlocal nomodifiable
 
     " Mappings
@@ -170,6 +170,11 @@ function! s:create_buffer(dirs) "{{{
     setfiletype starter
 endfunction "}}}
 
+function! s:remove_base_path(path, base_path) "{{{
+    " FIXME: this won't work for directories in template dir.
+    return fnamemodify(a:path, ':t')
+endfunction "}}}
+
 function! s:launch() "{{{
     let template_dir = expand(g:starter_template_dir)
     if !isdirectory(template_dir)
@@ -182,13 +187,14 @@ function! s:launch() "{{{
         return
     endif
 
-    let dirs = 
-    \   filter(
-    \       s:glob(template_dir . '/*'),
-    \       'isdirectory(v:val)'
+    let files = s:glob(template_dir . '/*')
+    call s:create_buffer(
+    \   map(
+    \       copy(files),
+    \       's:remove_base_path(v:val, template_dir)'
     \   )
-    call s:create_buffer(dirs)
-    let b:starter_dir_list = dirs
+    \)
+    let b:starter_files_list = files
 endfunction "}}}
 
 if !g:starter_no_default_command
